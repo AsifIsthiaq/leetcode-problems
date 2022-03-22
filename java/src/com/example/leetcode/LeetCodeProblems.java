@@ -1,9 +1,57 @@
 package com.example.leetcode;
 
+import java.util.Arrays;
+
 public class LeetCodeProblems {
     public static void main(String[] args) {
         System.out.println("Leet Code Problems");
-        numberOfSteps(123);
+        // for code formatting using cmd+option+l in mac
+        // numberOfSteps(123);
+        int[][] mat = new int[][]{
+                {1, 1, 0, 0, 0},
+                {1, 1, 1, 1, 0},
+                {1, 0, 0, 0, 0},
+                {1, 1, 0, 0, 0},
+                {1, 1, 1, 1, 1}
+        };
+        kWeakestRows(mat, 3);
+    }
+
+    /**
+     * problem : 1337. The K Weakest Rows in a Matrix
+     *
+     * @param mat, k
+     */
+    static int[] kWeakestRows(int[][] mat, int k) {
+        int rows = mat.length;
+        int[] soldiers = new int[rows];
+        for (int i = 0; i < rows; i++) {
+            // int numOfOnes = Arrays.stream(mat[i]).sum();
+            int numOfOnes = getSum(mat[i]);
+            soldiers[i] = numOfOnes * rows + i;
+        }
+        logList(soldiers);
+        Arrays.sort(soldiers);
+        logList(soldiers);
+        for (int i = 0; i < rows; i++)
+            soldiers[i] = soldiers[i] % rows;
+        logList(soldiers);
+        logList(Arrays.copyOfRange(soldiers, 0, k));
+        return Arrays.copyOfRange(soldiers, 0, k);
+    }
+
+    static int getSum(int[] arr) {
+        int sum = 0;
+        for (int i = 0; i < arr.length; i++)
+            sum += arr[i];
+        return sum;
+    }
+
+    static void logList(int[] arr) {
+        for (int i = 0; i < arr.length; i++) {
+            System.out.print(arr[i] + " ");
+        }
+        System.out.println();
     }
 
     /*
