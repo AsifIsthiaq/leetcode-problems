@@ -1,14 +1,40 @@
 package com.example.leetcode;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class LeetCodeProblems {
     public static void main(String[] args) {
         System.out.println("Leet Code Problems");
         // for code formatting using cmd+option+l in mac
         // cmd+shift+k to push code
-        //middleOfTheLinkList();
-        createSinglyLinkedList();
+        fizzBuzz();
+    }
+
+
+    /**
+     * problem: 412. Fizz Buzz
+     */
+    static void fizzBuzz() {
+        System.out.println(fizzBuzz(5));
+    }
+
+    public static List<String> fizzBuzz(int n) {
+        List<String> list = new ArrayList<String>();
+        int i = 1;
+        while (i <= n) {
+            list.add(getElement(i));
+            i++;
+        }
+        return list;
+    }
+
+    static String getElement(int i) {
+        if (i % 3 == 0 && i % 5 == 0) return "FizzBuzz";
+        else if (i % 3 == 0) return "Fizz";
+        else if (i % 5 == 0) return "Buzz";
+        else return Integer.toString(i);
     }
 
     /**
@@ -189,6 +215,13 @@ public class LeetCodeProblems {
     }
 
     static void logList(int[] arr) {
+        for (int i = 0; i < arr.length; i++) {
+            System.out.print(arr[i] + " ");
+        }
+        System.out.println();
+    }
+
+    static void logList(String[] arr) {
         for (int i = 0; i < arr.length; i++) {
             System.out.print(arr[i] + " ");
         }
