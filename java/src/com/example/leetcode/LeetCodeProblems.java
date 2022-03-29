@@ -1,17 +1,45 @@
 package com.example.leetcode;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class LeetCodeProblems {
     public static void main(String[] args) {
         System.out.println("Leet Code Problems");
         // for code formatting using cmd+option+l in mac
         // cmd+shift+k to push code
-        fizzBuzz();
+        canConstruct();
     }
 
+    /**
+     * problem: 383. Ransom Note
+     */
+    static void canConstruct() {
+        System.out.println(canConstruct("aa", "aab"));
+    }
+
+    public static boolean canConstruct(String ransomNote, String magazine) {
+        Map<Character, Integer> map = new HashMap<>();
+        for (char c : magazine.toCharArray()) {
+            int count = map.containsKey(c) ? map.get(c) + 1 : 1;
+            map.put(c, count);
+        }
+        System.out.println(map);
+        for (char c : ransomNote.toCharArray()) {
+            int newCount = map.containsKey(c) ? map.get(c) - 1 : -1;
+            if (newCount == -1) return false;
+            map.put(c, newCount);
+        }
+        System.out.println(map);
+        return true;
+    }
+
+    static int getCharCount(String magazine, char ch) {
+        int count = 0;
+        for (char c : magazine.toCharArray()) {
+            if (c == ch) count++;
+        }
+        return count;
+    }
 
     /**
      * problem: 412. Fizz Buzz
