@@ -7,7 +7,63 @@ public class LeetCodeProblems {
         System.out.println("Leet Code Problems");
         // for code formatting using cmd+option+l in mac
         // cmd+shift+k to push code
-        canConstruct();
+        createSingleLinkedList();
+    }
+
+    /**
+     * problem: 234. Palindrome Linked List
+     */
+    static void createSingleLinkedList() {
+        /* Start with the empty list. */
+        LinkedList list = new LinkedList();
+
+        // Insert the values
+        list = list.insert(list, 1);
+        list = list.insert(list, 2);
+        list = list.insert(list, 2);
+        list = list.insert(list, 1);
+
+        // Print the LinkedList
+        list.printList(list);
+        System.out.println(isPalindrome(list.head));
+    }
+
+    public static boolean isPalindrome(LinkedList.ListNode head) {
+        Map<Integer, Integer> map = new HashMap<>();
+        LinkedList.ListNode curr = head;
+        int i = 0;
+        while (curr != null) {
+            map.put(i, curr.val);
+            curr = curr.next;
+            i++;
+        }
+        System.out.println(map);
+        curr = reversedLinkedList(head);
+        i = 0;
+        while (curr != null) {
+            System.out.println("curr.val "+ curr.val);
+            System.out.println("map.get(i) "+map.get(i));
+            if (curr.val != map.get(i)) return false;
+            curr = curr.next;
+            i++;
+        }
+        return true;
+    }
+
+    static LinkedList.ListNode reversedLinkedList(LinkedList.ListNode head) {
+        LinkedList.ListNode curr = head, prev = null, next = null;
+        while (curr != null) {
+            next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+        }
+//        System.out.println("\n----");
+//        while (prev != null){
+//            System.out.print(prev.val+" ");
+//            prev = prev.next;
+//        }
+        return prev;
     }
 
     /**
@@ -31,14 +87,6 @@ public class LeetCodeProblems {
         }
         System.out.println(map);
         return true;
-    }
-
-    static int getCharCount(String magazine, char ch) {
-        int count = 0;
-        for (char c : magazine.toCharArray()) {
-            if (c == ch) count++;
-        }
-        return count;
     }
 
     /**
