@@ -7,7 +7,109 @@ public class LeetCodeProblems {
         System.out.println("Leet Code Problems");
         // for code formatting using cmd+option+l in mac
         // cmd+shift+k to push code
-        kClosest();
+        findKthLargest();
+    }
+
+    /**
+     * 215. Kth Largest Element in an Array
+     */
+    static void findKthLargest() {
+//      int[] nums = new int[]{3, 2, 1, 5, 6, 4};
+//        System.out.println(findKthLargest(nums, 2));
+        int[] nums = new int[]{3,2,3,1,2,4,5,5,6};
+        System.out.println(findKthLargest(nums, 4));
+    }
+
+    public static int findKthLargest_(int[] nums, int k) {
+        Arrays.sort(nums);
+        return nums[nums.length - k];
+    }
+
+    public static int findKthLargest(int[] nums, int k) {
+        int len = nums.length - 1;
+        quickSort(nums, 0, len);
+        System.out.println(Arrays.toString(nums));
+        return nums[len + 1 - k];
+    }
+
+    // A utility function to swap two elements
+    static void swap(int[] arr, int i, int j) {
+        int temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+    }
+
+    /* This function takes last element as pivot, places
+    the pivot element at its correct position in sorted
+    array, and places all smaller (smaller than pivot)
+    to left of pivot and all greater elements to right
+    of pivot */
+    static int partition(int[] arr, int low, int high) {
+        // pivot
+        int pivot = arr[high];
+        // Index of smaller element and
+        // indicates the right position
+        // of pivot found so far
+        int i = (low - 1);
+        for (int j = low; j <= high - 1; j++) {
+            // If current element is smaller
+            // than the pivot
+            if (arr[j] < pivot) {
+                // Increment index of
+                // smaller element
+                i++;
+                swap(arr, i, j);
+            }
+        }
+        swap(arr, i + 1, high);
+        return (i + 1);
+    }
+
+    /* The main function that implements QuickSort
+            arr[] --> Array to be sorted,
+            low --> Starting index,
+            high --> Ending index
+    */
+    static void quickSort(int[] arr, int low, int high) {
+        if (low < high) {
+            // pi is partitioning index, arr[p]
+            // is now at right place
+            int pi = partition(arr, low, high);
+            // Separately sort elements before
+            // partition and after partition
+            quickSort(arr, low, pi - 1);
+            quickSort(arr, pi + 1, high);
+        }
+    }
+
+    /**
+     * 1779. Find Nearest Point That Has the Same X or Y Coordinate
+     */
+    static void nearestValidPoint() {
+        int[][] points = new int[][]{
+                {1, 2}, {3, 1}, {2, 4}, {2, 3}, {4, 4}
+        };
+        System.out.println(nearestValidPoint(3, 4, points));
+    }
+
+    public static int nearestValidPoint(int x, int y, int[][] points) {
+        for (int[] point : points) {
+            System.out.println(Arrays.toString(point));
+        }
+        int i = 0, currShortestDistance = -1, nearestValidIndex = -1;
+        for (int[] point : points) {
+            if (point[0] == x || point[1] == y) {
+                int md = Math.abs(x - point[0] + Math.abs(y - point[1]));
+                System.out.println("condition 1 true md=" + md);
+                if (currShortestDistance == -1 || md < currShortestDistance) {
+                    currShortestDistance = md;
+                    nearestValidIndex = i;
+                    System.out.println("condition 2 true");
+                }
+            }
+            i++;
+        }
+        return nearestValidIndex;
     }
 
     /**
@@ -31,7 +133,7 @@ public class LeetCodeProblems {
         public int compare(int[] a, int[] b) {
             double distance1 = Math.sqrt(Math.pow(a[0], 2) + Math.pow(a[1], 2));
             double distance2 = Math.sqrt(Math.pow(b[0], 2) + Math.pow(b[1], 2));
-            System.out.println("compare-> a="+distance1 + " |  b=" + distance2);
+            System.out.println("compare-> a=" + distance1 + " |  b=" + distance2);
             return distance1 < distance2 ? 1 : -1;
         }
     }
@@ -41,10 +143,10 @@ public class LeetCodeProblems {
         for (int[] p : points) {
             System.out.println(Arrays.toString(p));
             pq.add(p);
-            if(pq.size() > k) pq.poll();
+            if (pq.size() > k) pq.poll();
         }
         int[][] closestPoints = new int[pq.size()][2];
-        int i=0;
+        int i = 0;
         while (!pq.isEmpty()) {
             System.out.println(Arrays.toString(pq.peek()));
             closestPoints[i++] = pq.poll();
