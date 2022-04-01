@@ -7,7 +7,75 @@ public class LeetCodeProblems {
         System.out.println("Leet Code Problems");
         // for code formatting using cmd+option+l in mac
         // cmd+shift+k to push code
-        createSingleLinkedList();
+        kClosest();
+    }
+
+    /**
+     * problem: 973. K Closest Points to Origin
+     */
+    static void kClosest() {
+//        int[][] points = new int[][]{
+//                {1, 3}, {-2, 2}
+//        };
+        int[][] points = new int[][]{
+                {3, 3}, {5, -1}, {-2, 4}
+        };
+//        int[][] points = new int[][]{
+//                {0, 1}, {1, 0}
+//        };
+        kClosest(points, 2);
+//        logList(kClosest(points, 2));
+    }
+
+    static class DistanceComparator implements Comparator<int[]> {
+        public int compare(int[] a, int[] b) {
+            double distance1 = Math.sqrt(Math.pow(a[0], 2) + Math.pow(a[1], 2));
+            double distance2 = Math.sqrt(Math.pow(b[0], 2) + Math.pow(b[1], 2));
+            System.out.println("compare-> a="+distance1 + " |  b=" + distance2);
+            return distance1 < distance2 ? 1 : -1;
+        }
+    }
+
+    public static int[][] kClosest(int[][] points, int k) {
+        PriorityQueue<int[]> pq = new PriorityQueue<>(new DistanceComparator());
+        for (int[] p : points) {
+            System.out.println(Arrays.toString(p));
+            pq.add(p);
+            if(pq.size() > k) pq.poll();
+        }
+        int[][] closestPoints = new int[pq.size()][2];
+        int i=0;
+        while (!pq.isEmpty()) {
+            System.out.println(Arrays.toString(pq.peek()));
+            closestPoints[i++] = pq.poll();
+        }
+        return closestPoints;
+    }
+
+    public static int[][] kClosest_(int[][] points, int K) {
+        PriorityQueue<int[]> maxHeap = new PriorityQueue<>((a, b) -> (b[0] * b[0] + b[1] * b[1]) - (a[0] * a[0] + a[1] * a[1]));
+        for (int[] p : points) {
+            System.out.println(Arrays.toString(p));
+            maxHeap.offer(p);
+            if (maxHeap.size() > K)
+                maxHeap.poll();
+        }
+        int[][] ans = new int[maxHeap.size()][2];
+        int i = 0;
+        while (!maxHeap.isEmpty()) {
+            System.out.println(Arrays.toString(maxHeap.peek()));
+            ans[i++] = maxHeap.poll();
+        }
+        System.out.println("ans:");
+        for (int[] e : ans)
+            System.out.println(Arrays.toString(e));
+        return ans;
+        /**
+         * Complexity
+         *
+         * Time: O(NlogK), where N <= 10^4 is number of points.
+         * Extra Space (don't count output as space): O(K), it's size of maxHeap.
+         */
     }
 
     /**
@@ -41,8 +109,8 @@ public class LeetCodeProblems {
         curr = reversedLinkedList(head);
         i = 0;
         while (curr != null) {
-            System.out.println("curr.val "+ curr.val);
-            System.out.println("map.get(i) "+map.get(i));
+            System.out.println("curr.val " + curr.val);
+            System.out.println("map.get(i) " + map.get(i));
             if (curr.val != map.get(i)) return false;
             curr = curr.next;
             i++;
@@ -293,6 +361,13 @@ public class LeetCodeProblems {
     static void logList(int[] arr) {
         for (int i = 0; i < arr.length; i++) {
             System.out.print(arr[i] + " ");
+        }
+        System.out.println();
+    }
+
+    static void logList(int[][] arr) {
+        for (int i = 0; i < arr.length; i++) {
+            System.out.println(Arrays.toString(arr[i]));
         }
         System.out.println();
     }
