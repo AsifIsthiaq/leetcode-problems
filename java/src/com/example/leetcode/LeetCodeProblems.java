@@ -7,7 +7,46 @@ public class LeetCodeProblems {
         System.out.println("Leet Code Problems");
         // for code formatting using cmd+option+l in mac
         // cmd+shift+k to push code
-        findKthLargest();
+        findKthLargestInt();
+    }
+
+    /**
+     * 1985. Find the Kth Largest Integer in the Array
+     */
+    static void findKthLargestInt() {
+        String[] nums = new String[]{"3", "6", "7", "10"};
+        System.out.println(kthLargestNumber(nums, 4));
+    }
+
+    public static String kthLargestNumber(String[] nums, int k) {
+//        PriorityQueue<String> pq = new PriorityQueue<String>(new StringComparator());
+        PriorityQueue<String> pq = new PriorityQueue<String>((a, b) -> {
+            if (a.length() < b.length()) return 1;
+            else if (a.length() == b.length()) return b.compareTo(a);
+            else return -1;
+        });
+        for (String str : nums) pq.add(str);
+        System.out.println(pq);
+        int i = 1;
+        while (i++ < k) pq.poll();
+        return pq.peek();
+    }
+
+    static class StringComparator implements Comparator<String> {
+        public int compare(String a, String b) {
+            if (a.length() < b.length()) {
+                System.out.println("compare-> a=" + a + " |  b=" + b + " | comapreTo-> " + b.compareTo(a));
+                return 1;
+            } else if (a.length() == b.length()) {
+                System.out.println("compare-> a=" + a + " |  b=" + b + " | comapreTo-> " + b.compareTo(a));
+                return b.compareTo(a);
+            }
+            // a.length() > b.length()
+            else {
+                System.out.println("compare-> a=" + a + " |  b=" + b + " | comapreTo-> " + b.compareTo(a));
+                return -1;
+            }
+        }
     }
 
     /**
@@ -16,7 +55,7 @@ public class LeetCodeProblems {
     static void findKthLargest() {
 //      int[] nums = new int[]{3, 2, 1, 5, 6, 4};
 //        System.out.println(findKthLargest(nums, 2));
-        int[] nums = new int[]{3,2,3,1,2,4,5,5,6};
+        int[] nums = new int[]{3, 2, 3, 1, 2, 4, 5, 5, 6};
         System.out.println(findKthLargest(nums, 4));
     }
 
