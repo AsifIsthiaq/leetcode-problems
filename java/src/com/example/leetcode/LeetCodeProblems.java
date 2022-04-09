@@ -7,7 +7,70 @@ public class LeetCodeProblems {
         System.out.println("Leet Code Problems");
         // for code formatting using cmd+option+l in mac
         // cmd+shift+k to push code
-        findKthLargestInt();
+        findMedianSortedArrays();
+    }
+
+    /**
+     * 4. Median of Two Sorted Arrays
+     */
+    static void findMedianSortedArrays() {
+        int[] nums1 = new int[]{1, 2};
+        int[] nums2 = new int[]{2};
+        System.out.println(findMedianSortedArrays(nums1, nums2));
+    }
+
+    public static double findMedianSortedArrays(int[] nums1, int[] nums2) {
+        int[] A, B;
+        if (nums2.length < nums1.length) {
+            A = nums2;
+            B = nums1;
+        } else {
+            A = nums1;
+            B = nums2;
+        }
+        int total = A.length + B.length;
+        int half = Math.floorDiv(total, 2);
+        int l = 0, r = A.length - 1, i, j;
+        double aLeft, aRight, bLeft, bRight;
+        System.out.println("B-> " + Arrays.toString(B));
+        System.out.println("A-> " + Arrays.toString(A));
+        System.out.println("l=" + l + " r=" + r);
+        while (true) {
+            i = Math.floorDiv((l + r), 2);
+            j = half - i - 2; // -2 cause of both A & B's index starts from 0
+            System.out.println("i=" + i + " j=" + j);
+
+            if (i >= 0) aLeft = A[i];
+            else aLeft = Double.NEGATIVE_INFINITY;
+            if (i + 1 < A.length) aRight = A[i + 1];
+            else aRight = Double.POSITIVE_INFINITY;
+            System.out.println("aLeft=" + aLeft + " aRight=" + aRight);
+
+            if (j >= 0) bLeft = B[j];
+            else bLeft = Double.NEGATIVE_INFINITY;
+            if (j + 1 < B.length) bRight = B[j + 1];
+            else bRight = Double.POSITIVE_INFINITY;
+            System.out.println("bLeft=" + bLeft + " bRight=" + bRight);
+
+            // if partition is correct
+            if (aLeft <= bRight && bLeft <= aRight) {
+                // odd
+                if (total % 2 == 1) return Math.min(aRight, bRight);
+                    // even
+                else return (Math.max(aLeft, bLeft) + Math.min(aRight, bRight)) / 2;
+            }
+            /**
+             * means has too many elements from left partition of A
+             * need to reduce r and then the partition will become l to mid-1
+             */
+            else if (aLeft > bRight) r = i - 1;
+            /**
+             * means has too many elements from left partition of B
+             * need to increase left partition of A
+             * need to increase l and then the partition will become mid+1 to r
+             */
+            else if (bLeft > aRight) l = i + 1;
+        }
     }
 
     /**
@@ -125,9 +188,7 @@ public class LeetCodeProblems {
      * 1779. Find Nearest Point That Has the Same X or Y Coordinate
      */
     static void nearestValidPoint() {
-        int[][] points = new int[][]{
-                {1, 2}, {3, 1}, {2, 4}, {2, 3}, {4, 4}
-        };
+        int[][] points = new int[][]{{1, 2}, {3, 1}, {2, 4}, {2, 3}, {4, 4}};
         System.out.println(nearestValidPoint(3, 4, points));
     }
 
@@ -158,9 +219,7 @@ public class LeetCodeProblems {
 //        int[][] points = new int[][]{
 //                {1, 3}, {-2, 2}
 //        };
-        int[][] points = new int[][]{
-                {3, 3}, {5, -1}, {-2, 4}
-        };
+        int[][] points = new int[][]{{3, 3}, {5, -1}, {-2, 4}};
 //        int[][] points = new int[][]{
 //                {0, 1}, {1, 0}
 //        };
@@ -198,8 +257,7 @@ public class LeetCodeProblems {
         for (int[] p : points) {
             System.out.println(Arrays.toString(p));
             maxHeap.offer(p);
-            if (maxHeap.size() > K)
-                maxHeap.poll();
+            if (maxHeap.size() > K) maxHeap.poll();
         }
         int[][] ans = new int[maxHeap.size()][2];
         int i = 0;
@@ -464,13 +522,7 @@ public class LeetCodeProblems {
      * problem : 1337. The K Weakest Rows in a Matrix
      */
     static void kWeakestRows() {
-        int[][] mat = new int[][]{
-                {1, 1, 0, 0, 0},
-                {1, 1, 1, 1, 0},
-                {1, 0, 0, 0, 0},
-                {1, 1, 0, 0, 0},
-                {1, 1, 1, 1, 1}
-        };
+        int[][] mat = new int[][]{{1, 1, 0, 0, 0}, {1, 1, 1, 1, 0}, {1, 0, 0, 0, 0}, {1, 1, 0, 0, 0}, {1, 1, 1, 1, 1}};
         kWeakestRows(mat, 3);
     }
 
