@@ -7,7 +7,29 @@ public class LeetCodeProblems {
         System.out.println("Leet Code Problems");
         // for code formatting using cmd+option+l in mac
         // cmd+shift+k to push code
-        search();
+        searchInsert();
+    }
+
+    /**
+     * 35. Search Insert Position
+     */
+    static void searchInsert() {
+        int[] nums = new int[]{1, 3, 5, 7};
+        System.out.println(searchInsert(nums, 6));
+    }
+
+    public static int searchInsert(int[] nums, int target) {
+        int l = 0, r = nums.length - 1;
+        while (l <= r) {
+            int mid = l + (r - l) / 2;
+            if (nums[mid] == target) return mid;
+            /**
+             * target jodi mid element theke boro hoia jai tahole last iteration er ager mid+1 e insert korte hobe
+             */
+            if (target > nums[mid]) l = mid + 1;
+            else r = mid - 1;
+        }
+        return l;
     }
 
     /**
