@@ -7,15 +7,99 @@ public class LeetCodeProblems {
         System.out.println("Leet Code Problems");
         // for code formatting using cmd+option+l in mac
         // cmd+shift+k to push code
-        findMedianSortedArrays();
+        search();
+    }
+
+    /**
+     * 33. Search in Rotated Sorted Array
+     */
+    static void search() {
+//        int[] nums = new int[]{4, 5, 6, 7, 0, 1, 2};
+//        int[] nums = new int[]{1, 3};
+        int[] nums = new int[]{5, 1, 3};
+//        int[] nums = new int[]{1};
+        System.out.println(search(nums, 5));
+    }
+
+    public static int search(int[] nums, int target) {
+        int l = 0, r = nums.length - 1;
+        /**
+         * if nums array length is 1 then match target return index
+         */
+        if (r == 0 && target == nums[0]) return 0;
+        /**
+         * if nums array length is 2 then match target return index
+         */
+        if (r == 1 && target == nums[0]) return 0;
+        if (r == 1 && target == nums[1]) return 1;
+        /**
+         * if nums array length is greater than 2
+         * then get the pivot p ( which is the index of where rotation starts)
+         */
+        int p = getPivot(nums, l, r);
+        /**
+         * if p is -1 then run basic binary search to find target
+         */
+        if (p != -1) {
+            /**
+             * if p is not equal to -1, then
+             * if element at p matches target then return p
+             */
+            if (nums[p] == target) return p;
+            /**
+             * else if target is greater than or equal first element of the nums array then we need to run binary search
+             * only in the first sorted half of the nums array
+             */
+            else if (target >= nums[l]) r = p;
+            /**
+             * else if target is less than or equal  last element of the nums array then we need to run binary search
+             * only in the second sorted half of the nums array
+             */
+            else if (target <= nums[r]) l = p + 1;
+        }
+        /**
+         * run basic binary search
+         */
+        while (l <= r) {
+            int mid = l + (r - l) / 2;
+            if (nums[mid] == target) return mid;
+            if (target > nums[mid]) l = mid + 1;
+            else r = mid - 1;
+        }
+        return -1;
+    }
+
+    static int getPivot(int[] nums, int l, int r) {
+        while (l < r) {
+            int mid = l + (r - l) / 2;
+            /**
+             * if the next element of mid is less than the element at mid then mid is the pivot index
+             */
+            if (nums[mid] > nums[mid + 1]) return mid;
+            /**
+             * if the previous element of mid is greater than the element at mid then mid-1 is the pivot index
+             */
+            if (mid > 0 && nums[mid - 1] > nums[mid]) return mid - 1;
+            /**
+             * if element at l is greater than element at mid then rotation took place in the left half of the array
+             */
+            if (nums[l] > nums[mid]) r = mid - 1;
+            /**
+             * otherwise rotation took place in the right half of the array
+             */
+            else l = mid + 1;
+        }
+        return -1;
     }
 
     /**
      * 4. Median of Two Sorted Arrays
      */
     static void findMedianSortedArrays() {
-        int[] nums1 = new int[]{1, 2};
-        int[] nums2 = new int[]{2};
+//        int[] nums1 = new int[]{1, 2};
+//        int[] nums2 = new int[]{2};
+        int[] nums1 = new int[]{1, 80, 109, 200};
+        int[] nums2 = new int[]{3, 6, 115, 120};
         System.out.println(findMedianSortedArrays(nums1, nums2));
     }
 
