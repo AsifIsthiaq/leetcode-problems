@@ -7,7 +7,49 @@ public class LeetCodeProblems {
         System.out.println("Leet Code Problems");
         // for code formatting using cmd+option+l in mac
         // cmd+shift+k to push code
-        searchInsert();
+        intersection();
+    }
+
+    /**
+     * 349. Intersection of Two Arrays
+     */
+    static void intersection() {
+//       int[] nums1 = new int[]{4,9,5};
+//       int[] nums2 = new int[]{9,4,9,8,4};
+//        int[] nums1 = new int[]{8, 0, 3};
+//        int[] nums2 = new int[]{0, 0};
+        int[] nums1 = new int[]{1, 2, 2,1};
+        int[] nums2 = new int[]{2, 2};
+        System.out.println(Arrays.toString(intersection(nums1, nums2)));
+    }
+
+    public static int[] intersection(int[] nums1, int[] nums2) {
+        int[] A, B;
+        int i = 0;
+        if (nums1.length < nums2.length) {
+            A = nums1;
+            B = nums2;
+        } else {
+            A = nums2;
+            B = nums1;
+        }
+        Arrays.sort(B);
+        Set<Integer> set = new HashSet<Integer>();
+        for (int n : A) if (searchElement(B, n)) set.add(n);
+        int[] result = new int[set.size()];
+        for (int n : set) result[i++] = n;
+        return result;
+    }
+
+    static boolean searchElement(int[] nums, int target) {
+        int l = 0, r = nums.length - 1;
+        while (l <= r) {
+            int mid = l + (r - l) / 2;
+            if (nums[mid] == target) return true;
+            if (target > nums[mid]) l = mid + 1;
+            else r = mid - 1;
+        }
+        return false;
     }
 
     /**
